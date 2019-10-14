@@ -1,26 +1,40 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react'
+import { BrowserRouter as Router, Route } from 'react-router-dom'
+import { Provider } from 'react-redux';
+import TransactionDetail from './component/transaction/transaction-detail';
+import WithDrawAmount from './component/addAccount/modalAccount/withdraw-deposit/withDrawAmount';
+import DepositAmount from './component/addAccount/modalAccount/withdraw-deposit/DepositAmount';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import {
+  store,
+  persistor
+} from './component/Store/store'
+import Navebar from './component/navebar/navebar'
+import Dashbord from './component/Dashbord/dashbord';
+import AddAccount from './component/addAccount/addAccount';
+import Transaction from './component/transaction/transactio';
+import AccountDetail from './component/addAccount/Account-detail';
+import { PersistGate } from 'redux-persist/integration/react'
+
+export default class App extends Component {
+  render() {
+    return (
+      <div>
+        <Provider store={store}>
+          <PersistGate loading={null} persistor={persistor}>
+            <Router>
+              <Navebar />
+              <Route path="/" exact component={Dashbord} />
+              <Route path="/addaccount" component={AddAccount} />
+              <Route path="/transaction" component={Transaction} />
+              <Route path="/displayAccountId" exact component={AccountDetail} />
+              <Route path="/displayTransactionId" exact component={TransactionDetail} />
+              <Route path="/withdraw" component={WithDrawAmount} />
+              <Route path="/deposit" component={DepositAmount} />
+            </Router>
+          </PersistGate>
+        </Provider>
+      </div>
+    )
+  }
 }
-
-export default App;
