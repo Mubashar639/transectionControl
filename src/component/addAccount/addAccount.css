@@ -1,0 +1,19 @@
+table {
+    table-layout: auto;
+    width: 95%;
+    border: 1px solid red;
+    background-color: #ced6d3;
+    border-spacing: 1em .5em;
+    border-spacing: 5px 1rem;
+    border-collapse: separate;
+}
+
+td {
+    border: 1px solid blue;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+/* col{
+
+  } */

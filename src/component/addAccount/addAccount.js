@@ -3,7 +3,9 @@ import { store } from '../Store/store';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Row, Col, Button, Icon, Table } from 'antd';
+import './addAccount.css';
 import Model from './modalAccount/modalAccount';
+import { deleteAction } from "../Store/action/"
 
 class addAccount extends React.Component {
 
@@ -17,7 +19,6 @@ class addAccount extends React.Component {
         })
 
     }
-
     render() {
         const dataSource = this.props.data.map((object) => {
             return {
@@ -27,7 +28,6 @@ class addAccount extends React.Component {
                 accoutType: object.accountType,
                 amount: object.amount
             }
-
         })
         const columns = [
             {
@@ -56,14 +56,18 @@ class addAccount extends React.Component {
                 title: 'Balance',
                 dataIndex: 'amount',
                 key: 'amount',
-            }
+            }, {
+                title: 'action',
+                dataIndex: "delete",
+                render: (row, record) => (
+                    <a onClick={() => store.dispatch(deleteAction(record.idd))}>Delete</a>)
+            },
         ];
-        // console.log(this.props.data);
         return (
             <div>
-                <div>
-                    <Row>
-                        <Col span={18} push={10}> <Model /> </Col>
+                <div style={{ width: '95%', margin: 'auto' }}>
+                    <Row >
+                        <Col span={18} push={10} > <Model /> </Col>
                         <Col span={6} pull={18}><Button type="primary" onClick={this.moveRout.bind(this)}>
                             <Icon type="left" />Back to dashboard </Button></Col>
                     </Row>
@@ -73,8 +77,6 @@ class addAccount extends React.Component {
         )
     }
 }
-
-
 const reciverFuncton = (store) => {
     return { data: store.AccountType }
 }

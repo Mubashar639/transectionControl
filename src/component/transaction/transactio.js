@@ -60,7 +60,7 @@ class addAccount extends React.Component {
             }
         ];
         return (
-            <div>
+            <div style={{ width: '95%', margin: 'auto' }}>
                 <div>
                     <Row>
                         <Col span={1} pull={0}><Button type="primary" onClick={this.moveRout.bind(this)}>

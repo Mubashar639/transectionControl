@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
+import { store } from '../Store/store';
+import Swal from 'sweetalert2'
 
 import { Button, Icon, Table } from 'antd';
 
@@ -8,17 +10,37 @@ class AccountDetail extends Component {
     this.props.history.push('/addaccount');
   }
   deletAccount() {
-    this.props.data.filter((object) => {
-      if (object.id === this.props.userId) {
-
-        object = null;
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.value) {
+        Swal.fire(
+          'Deleted!',
+          'Your file has been deleted.',
+          'success'
+        )
       }
-    });
+    })
+    // this.props.data.filter((object) => {
+    //   if (object.id === this.props.userId) {
+    //     localStorage.removeItem(object);
+    //   store.dispatch({
+    //     type:"addAccount",
+    //   })
+    // }
+    // });
+    this.props.history.push('/addaccount');
   }
   withdrawamount() {
     this.props.history.push('/withdraw')
   }
-  depositamount(){
+  depositamount() {
     this.props.history.push('/deposit')
   }
   render() {
@@ -28,14 +50,6 @@ class AccountDetail extends Component {
         return object
       }
     });
-    // returning odject from  filter data
-
-    //     accountType: "Saving" 
-    // amount: "100"
-    // date: "10/10/201912:47:27 PM"
-    // id: "11cbd90d-c034-4894-8631-bb03bbc9af21"
-    // transactionType: ""
-    // username: "Gamica"
     console.log(dataSource)
     const columns = [
       {
@@ -54,8 +68,6 @@ class AccountDetail extends Component {
         title: 'Curremt Balance',
         dataIndex: 'amount',
       },];
-
-
     return (
       <div>
 
@@ -65,8 +77,8 @@ class AccountDetail extends Component {
         <Table dataSource={dataSource} columns={columns} />;
               <Button type="primary" style={{ color: 'green' }}
           onClick={this.withdrawamount.bind(this)}>WITHDRAW</Button>
-        <Button type="primary" style={{ color: 'black' }} 
-        onClick={this.depositamount.bind(this)}>DEPOSIT</Button>
+        <Button type="primary" style={{ color: 'black' }}
+          onClick={this.depositamount.bind(this)}>DEPOSIT</Button>
       </div>
     )
   }

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Modal, Button, Divider } from 'antd';
 import uuid from 'uuid';
+import Swal from 'sweetalert2'
 
 import { store } from '../../Store/store';
 
@@ -46,6 +47,30 @@ export default class App extends React.Component {
 
 
     handleOk = () => {
+        let timerInterval
+        if (this.state.amount === "" || this.state.username === "" || this.state.accountType === "") return alert("Please fill the form clearFully")
+        Swal.fire({
+            title: 'Creatig Account',
+            html: 'I will complete in <strong></strong> milliseconds.',
+            timer: 2000,
+            onBeforeOpen: () => {
+                Swal.showLoading()
+                timerInterval = setInterval(() => {
+                    Swal.getContent().querySelector('strong')
+                        .textContent = Swal.getTimerLeft()
+                }, 100)
+            },
+            onClose: () => {
+                clearInterval(timerInterval)
+            }
+        }).then((result) => {
+            if (
+                /* Read more about handling dismissals below */
+                result.dismiss === Swal.DismissReason.timer
+            ) {
+                console.log('I was closed by the timer')
+            }
+        })
         store.dispatch({
             type: 'addAccount',
             payload: this.state,
@@ -57,7 +82,7 @@ export default class App extends React.Component {
     };
 
     handleCancel = e => {
-        console.log(e);
+        Swal.fire('Can you want not creat  Account')
         this.setState({
             visible: false,
         });
