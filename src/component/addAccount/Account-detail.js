@@ -2,14 +2,14 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { store } from '../Store/store';
 import Swal from 'sweetalert2'
-
+import { deleteAction } from "../Store/action"
 import { Button, Icon, Table } from 'antd';
 
 class AccountDetail extends Component {
-  moveRout() {
+  moveRout = () => {
     this.props.history.push('/addaccount');
   }
-  deletAccount() {
+  deletAccount = (id) => {
     Swal.fire({
       title: 'Are you sure?',
       text: "You won't be able to revert this!",
@@ -20,6 +20,7 @@ class AccountDetail extends Component {
       confirmButtonText: 'Yes, delete it!'
     }).then((result) => {
       if (result.value) {
+        setTimeout(() => store.dispatch(deleteAction(id)), 500)
         Swal.fire(
           'Deleted!',
           'Your file has been deleted.',
@@ -27,14 +28,6 @@ class AccountDetail extends Component {
         )
       }
     })
-    // this.props.data.filter((object) => {
-    //   if (object.id === this.props.userId) {
-    //     localStorage.removeItem(object);
-    //   store.dispatch({
-    //     type:"addAccount",
-    //   })
-    // }
-    // });
     this.props.history.push('/addaccount');
   }
   withdrawamount() {
@@ -73,7 +66,7 @@ class AccountDetail extends Component {
 
         <Button type="primary" onClick={this.moveRout.bind(this)}>
           <Icon type="left" />Back to account </Button>
-        <Button type="danger" onClick={this.deletAccount.bind(this)}>Delete Account</Button>
+        <Button type="danger" onClick={() => this.deletAccount(this.props.userId)}>Delete Account</Button>
         <Table dataSource={dataSource} columns={columns} />;
               <Button type="primary" style={{ color: 'green' }}
           onClick={this.withdrawamount.bind(this)}>WITHDRAW</Button>

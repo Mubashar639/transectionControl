@@ -16,8 +16,12 @@ const AccountType = (data = userAccout, action) => {
         newState.push(action.payload);
         return newState
     } else if (action.type == 'account') {
-        newState.push(action.payload);
-        return newState;
+
+        newState = newState.map(value => {
+            if (value.id === action.payload.id) value.amount = action.payload.amount
+            return value
+        })
+        return [...newState];
     }
     else if (action.type == 'DELETE_ACCOUNT') {
         newState = newState.filter(item => item.id !== action.id)

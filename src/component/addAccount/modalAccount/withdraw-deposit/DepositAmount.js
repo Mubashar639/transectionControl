@@ -14,13 +14,15 @@ class DepositAmount extends Component {
     }
     DepositAmount = () => {
         // alert(`Withdraw amount${this.state.amount}`);
+        if (isNaN(+this.state.amount) || this.state.amount === "") return alert("please enter corrent number")
+
         Swal.fire({
             position: 'top-end',
             type: 'success',
             title: 'Your work has been saved',
             showConfirmButton: false,
             timer: 1500
-          })
+        })
         this.props.data.filter((object) => {
             this.setState({
                 amount: object.amount
@@ -29,7 +31,7 @@ class DepositAmount extends Component {
                 const amount = object.amount = +object.amount + + this.state.amount
                 store.dispatch({
                     type: 'account',
-                    payload: amount
+                    payload: { id: object.id, amount }
                 })
             }
             this.props.history.push('/displayAccountId')

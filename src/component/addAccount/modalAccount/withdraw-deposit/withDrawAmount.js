@@ -3,6 +3,7 @@ import { store } from '../../../Store/store';
 import { connect } from 'react-redux';
 import { Button, Divider } from 'antd';
 import Swal from 'sweetalert2'
+import { isNumber } from 'util';
 
 class withDrawAmount extends Component {
     constructor(props) {
@@ -14,19 +15,20 @@ class withDrawAmount extends Component {
     }
     withDrawAmount() {
         // alert(`Withdraw amount${this.state.amount}`);
+        if (isNaN(+this.state.amount) || this.state.amount === "") return alert("please enter corrent number")
         Swal.fire({
             position: 'top-end',
             type: 'success',
             title: 'Your work has been saved',
             showConfirmButton: false,
             timer: 1500
-          })
+        })
         this.props.data.filter((object) => {
             if (object.id == this.props.userId) {
-                const amount = object.amount =+object.amount - + this.state.amount;
+                const amount = object.amount = +object.amount - + this.state.amount;
                 store.dispatch({
                     type: 'account',
-                    payload: amount
+                    payload: { id: object.id, amount }
                 })
 
             }
