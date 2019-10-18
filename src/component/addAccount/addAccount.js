@@ -4,11 +4,34 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Row, Col, Button, Icon, Table } from 'antd';
 import './addAccount.css';
+import Swal from 'sweetalert2'
+
 import Model from './modalAccount/modalAccount';
 import { deleteAction } from "../Store/action/"
 
 class addAccount extends React.Component {
+    deletAccount(id) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.value) {
+                setTimeout(() => store.dispatch(deleteAction(id)), 500)
 
+                Swal.fire(
+                    'Deleted!',
+                    'Your file has been deleted.',
+                    'success'
+                )
+            }
+        })
+
+    }
     moveRout() {
         this.props.history.push('/');
     }
@@ -60,7 +83,7 @@ class addAccount extends React.Component {
                 title: 'action',
                 dataIndex: "delete",
                 render: (row, record) => (
-                    <a onClick={() => store.dispatch(deleteAction(record.idd))}>Delete</a>)
+                    <a onClick={() => this.deletAccount(record.idd)}>Delete</a>)
             },
         ];
         return (

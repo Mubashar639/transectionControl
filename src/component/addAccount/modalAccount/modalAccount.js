@@ -71,10 +71,12 @@ export default class App extends React.Component {
                 console.log('I was closed by the timer')
             }
         })
-        store.dispatch({
-            type: 'addAccount',
-            payload: this.state,
-        });
+        setTimeout(() => {
+            store.dispatch({
+                type: 'addAccount',
+                payload: this.state,
+            });
+        }, 2500)
         this.setState({
             visible: false,
         });
